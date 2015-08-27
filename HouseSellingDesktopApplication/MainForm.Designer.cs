@@ -33,6 +33,10 @@
             System.Windows.Forms.Label label3;
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.House = new System.Windows.Forms.TabPage();
+            this.enddateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.statusComboBox = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.ReadyForSaleButton = new System.Windows.Forms.Button();
             this.addHouse_Button = new System.Windows.Forms.Button();
             this.houseListDataGridView = new System.Windows.Forms.DataGridView();
@@ -42,10 +46,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Employee = new System.Windows.Forms.TabPage();
             this.employeeListDataGridView = new System.Windows.Forms.DataGridView();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.statusComboBox = new System.Windows.Forms.ComboBox();
-            this.enddateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,6 +56,7 @@
             this.fullNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jobTitleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.employeeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
@@ -62,8 +64,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.houseListDataGridView)).BeginInit();
             this.Employee.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.employeeListDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.houseBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -82,7 +86,7 @@
             label3.AutoSize = true;
             label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             label3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            label3.Location = new System.Drawing.Point(350, 12);
+            label3.Location = new System.Drawing.Point(6, 3);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(161, 36);
             label3.TabIndex = 9;
@@ -95,7 +99,7 @@
             this.tabControl1.Location = new System.Drawing.Point(2, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(765, 498);
+            this.tabControl1.Size = new System.Drawing.Size(766, 498);
             this.tabControl1.TabIndex = 0;
             // 
             // House
@@ -116,10 +120,47 @@
             this.House.Location = new System.Drawing.Point(4, 22);
             this.House.Name = "House";
             this.House.Padding = new System.Windows.Forms.Padding(3);
-            this.House.Size = new System.Drawing.Size(757, 472);
+            this.House.Size = new System.Drawing.Size(758, 472);
             this.House.TabIndex = 0;
             this.House.Text = "House";
             this.House.UseVisualStyleBackColor = true;
+            // 
+            // enddateDateTimePicker
+            // 
+            this.enddateDateTimePicker.Location = new System.Drawing.Point(61, 207);
+            this.enddateDateTimePicker.Name = "enddateDateTimePicker";
+            this.enddateDateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.enddateDateTimePicker.TabIndex = 20;
+            // 
+            // statusComboBox
+            // 
+            this.statusComboBox.FormattingEnabled = true;
+            this.statusComboBox.Items.AddRange(new object[] {
+            "Building",
+            "Built",
+            "ReadyForSale"});
+            this.statusComboBox.Location = new System.Drawing.Point(61, 160);
+            this.statusComboBox.Name = "statusComboBox";
+            this.statusComboBox.Size = new System.Drawing.Size(121, 21);
+            this.statusComboBox.TabIndex = 19;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 207);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "End Date";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 160);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Status";
             // 
             // ReadyForSaleButton
             // 
@@ -129,6 +170,7 @@
             this.ReadyForSaleButton.TabIndex = 15;
             this.ReadyForSaleButton.Text = "Ready For Sale";
             this.ReadyForSaleButton.UseVisualStyleBackColor = true;
+            this.ReadyForSaleButton.Click += new System.EventHandler(this.ReadyForSaleButton_Click);
             // 
             // addHouse_Button
             // 
@@ -169,6 +211,7 @@
             this.houseNameTextBox.Name = "houseNameTextBox";
             this.houseNameTextBox.Size = new System.Drawing.Size(246, 20);
             this.houseNameTextBox.TabIndex = 10;
+            this.houseNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.houseNameTextBox_Validating);
             // 
             // label4
             // 
@@ -196,7 +239,7 @@
             this.Employee.Location = new System.Drawing.Point(4, 22);
             this.Employee.Name = "Employee";
             this.Employee.Padding = new System.Windows.Forms.Padding(3);
-            this.Employee.Size = new System.Drawing.Size(757, 472);
+            this.Employee.Size = new System.Drawing.Size(758, 472);
             this.Employee.TabIndex = 1;
             this.Employee.Text = "Employee";
             this.Employee.UseVisualStyleBackColor = true;
@@ -211,47 +254,14 @@
             this.fullNameDataGridViewTextBoxColumn,
             this.jobTitleDataGridViewTextBoxColumn});
             this.employeeListDataGridView.DataSource = this.employeeBindingSource;
-            this.employeeListDataGridView.Location = new System.Drawing.Point(347, 61);
+            this.employeeListDataGridView.Location = new System.Drawing.Point(12, 47);
             this.employeeListDataGridView.Name = "employeeListDataGridView";
-            this.employeeListDataGridView.Size = new System.Drawing.Size(342, 415);
+            this.employeeListDataGridView.Size = new System.Drawing.Size(343, 415);
             this.employeeListDataGridView.TabIndex = 0;
             // 
-            // label5
+            // errorProvider1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 207);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 13);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "End Date";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 160);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(37, 13);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Status";
-            // 
-            // statusComboBox
-            // 
-            this.statusComboBox.FormattingEnabled = true;
-            this.statusComboBox.Items.AddRange(new object[] {
-            "Building",
-            "Built",
-            "ReadyForSale"});
-            this.statusComboBox.Location = new System.Drawing.Point(61, 160);
-            this.statusComboBox.Name = "statusComboBox";
-            this.statusComboBox.Size = new System.Drawing.Size(121, 21);
-            this.statusComboBox.TabIndex = 19;
-            // 
-            // enddateDateTimePicker
-            // 
-            this.enddateDateTimePicker.Location = new System.Drawing.Point(61, 207);
-            this.enddateDateTimePicker.Name = "enddateDateTimePicker";
-            this.enddateDateTimePicker.Size = new System.Drawing.Size(200, 20);
-            this.enddateDateTimePicker.TabIndex = 20;
+            this.errorProvider1.ContainerControl = this;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -304,6 +314,10 @@
             // 
             this.employeeBindingSource.DataSource = typeof(HouseSellingDesktopApplication.Employee);
             // 
+            // errorProvider2
+            // 
+            this.errorProvider2.ContainerControl = this;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,8 +334,10 @@
             this.Employee.ResumeLayout(false);
             this.Employee.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.employeeListDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.houseBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -352,6 +368,8 @@
         private System.Windows.Forms.ComboBox statusComboBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.ErrorProvider errorProvider2;
 
     }
 }

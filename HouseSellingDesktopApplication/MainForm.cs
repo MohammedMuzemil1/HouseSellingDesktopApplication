@@ -13,8 +13,9 @@ namespace HouseSellingDesktopApplication
     public partial class MainForm : Form
     {
         private DataTable houseDataTable = new DataTable();
+        private List<House> Houses { get; set; }
 
-        List<House> Houses { get; set; } 
+        private int index;
 
         public MainForm()
         {
@@ -62,7 +63,20 @@ namespace HouseSellingDesktopApplication
         {
             try
             {
-                houseDataTable.Rows.Add(houseNameTextBox.Text, housePriceTextBox.Text, "Building", null);
+                var house = new House()
+                {
+                    Name = houseNameTextBox.Text,
+                    Price = Double.Parse(housePriceTextBox.Text),
+                    Status = statusComboBox.SelectedItem.ToString(),
+                    EndDate = DateTime.Parse(enddateDateTimePicker.Text)
+                };
+
+                Houses.Add(house);
+
+                houseDataTable.Rows.Add(house.Name, house.Price, 
+                                        house.Status,
+                                        house.EndDate);
+
                 houseListDataGridView.DataSource = houseDataTable;
             }
             catch (Exception ex)
@@ -73,13 +87,36 @@ namespace HouseSellingDesktopApplication
 
         private void houseListDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            var i = e.RowIndex;
-            DataGridViewRow row = houseListDataGridView.Rows[i];
+            index = e.RowIndex;
+            DataGridViewRow row = houseListDataGridView.Rows[index];
             houseNameTextBox.Text = row.Cells[0].Value.ToString();
             housePriceTextBox.Text = row.Cells[1].Value.ToString();
+            statusComboBox.Text = row.Cells[2].Value.ToString();
+            enddateDateTimePicker.Text = row.Cells[3].Value.ToString();
         }
 
+        private void ReadyForSaleButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridViewRow row = houseListDataGridView.Rows[index];
+                row.Cells[2].Value = statusComboBox.Text;
+                row.Cells[3].Value = enddateDateTimePicker.Text;
 
-      
+                Houses[index].EndDate = DateTime.Parse(enddateDateTimePicker.Text);
+                Houses[index].Status = statusComboBox.Text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+        }
+
+        private void houseNameTextBox_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+ 
     }
 }
